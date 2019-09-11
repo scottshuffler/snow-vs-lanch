@@ -1,5 +1,16 @@
-import withLayout from '../components/MyLayout';
+import withLayout from "../components/Layout";
+import CreditForm from "../components/CreditForm";
 
-const Page = () => <p>Hello Next.js</p>;
+const style = {
+  marginTop: 30
+};
+
+const Page = () => {
+  return (
+    <div style={style}>
+      <CreditForm />
+    </div>
+  );
+};
 
 export default withLayout(Page);

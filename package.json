@@ -6,11 +6,20 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
+    "export": "next export",
     "start": "next start"
   },
   "dependencies": {
+    "@zeit/next-css": "^1.0.1",
+    "css-loader": "^3.2.0",
+    "firebase-tools": "^7.3.1",
     "next": "^9.0.5",
+    "postcss-loader": "^3.0.0",
     "react": "^16.9.0",
-    "react-dom": "^16.9.0"
+    "react-dom": "^16.9.0",
+    "recharts": "^1.7.1",
+    "semantic-ui-css": "^2.4.1",
+    "semantic-ui-react": "^0.88.0",
+    "style-loader": "^1.0.0"
   }
 }
