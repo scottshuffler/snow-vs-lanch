@@ -1,67 +1,30 @@
 import { useState } from "react";
-import { Form, Input, Button } from "semantic-ui-react";
+import { Form, Input, Button, Message } from "semantic-ui-react";
 import CreditLine from "./CreditLine";
-import Chart from './Chart';
+import Chart from "./Chart";
 
 function CreditForm() {
-  let dataTemplate = {
-    name: "",
-    apr: 0,
-    minPay: 0,
-    promoAPR: 0,
-    promoDate: "",
-    id: 0
-  };
-
-  const [data, setData] = useState([dataTemplate]);
+  const [data, setData] = useState([
+    {
+      name: "",
+      apr: 0,
+      minPay: 0,
+      promoAPR: 0,
+      promoDate: "",
+      id: 0,
+      balance: 0
+    }
+  ]);
   const [chart, setChart] = useState(false);
+  const [chartData, setChartData] = useState([]);
+  const [message, setMessage] = useState(false);
+  const [messageData, setMessageData] = useState({
+    color: "red",
+    header: "",
+    text: ""
+  });
   const [snowball, setSnowball] = useState(0);
   const [count, setCount] = useState(1);
-
-  const ndata = [
-    {
-      name: "Page A",
-      uv: 4000,
-      pv: 2400,
-      amt: 2400
-    },
-    {
-      name: "Page B",
-      uv: 3000,
-      pv: 1398,
-      amt: 2210
-    },
-    {
-      name: "Page C",
-      uv: 2000,
-      pv: 9800,
-      amt: 2290
-    },
-    {
-      name: "Page D",
-      uv: 2780,
-      pv: 3908,
-      amt: 2000
-    },
-    {
-      name: "Page E",
-      uv: 1890,
-      pv: 4800,
-      amt: 2181
-    },
-    {
-      name: "Page F",
-      uv: 2390,
-      pv: 3800,
-      amt: 2500
-    },
-    {
-      name: "Page G",
-      uv: 3490,
-      pv: 4300,
-      amt: 2100
-    }
-  ];
 
   const style = {
     marginTop: 30
@@ -76,7 +39,8 @@ function CreditForm() {
         minPay: 0,
         promoAPR: 0,
         promoDate: "",
-        id: count
+        id: count,
+        balance: 0
       }
     ]);
     setCount(count + 1);
@@ -94,11 +58,33 @@ function CreditForm() {
     var foundIndex = data.findIndex(x => x.id == childData.id);
     let dt = data;
     dt[foundIndex] = childData;
-    console.log(dt);
     setData(dt);
   };
 
   const calculate = e => {
+    let chartDataLocal = [];
+    let n = Math.ceil(parseFloat(data[0].balance) / parseFloat(data[0].minPay));
+    let b = parseFloat(data[0].balance);
+    for (let i = 0; i < n; i++) {
+      chartDataLocal.push({
+        name: "Month " + (i + 1),
+        balance: b,
+        paid: parseFloat(data[0].minPay)
+      });
+      b = b - parseFloat(data[0].minPay);
+    }
+
+    if (b < 0) {
+      let lastPayment = parseFloat(data[0].minPay) + b;
+      console.log(lastPayment);
+      chartDataLocal.push({
+        name: "Month " + (n + 1),
+        balance: 0,
+        paid: lastPayment
+      });
+    }
+
+    setChartData(chartDataLocal);
     setChart(!chart);
   };
 
@@ -108,11 +94,18 @@ function CreditForm() {
 
   return (
     <div>
+      {message ? (
+        <Message
+          color={messageData.color}
+          header={messageData.header}
+          content={messageData.text}
+        />
+      ) : null}
+
       {!chart ? (
         <Form>
           <h3>Add your lines of credit</h3>
           {data.map((n, i) => {
-            console.log(i);
             return (
               <CreditLine data={n} parentCallback={handleUpdate} key={i} />
             );
@@ -127,16 +120,14 @@ function CreditForm() {
 
           <div style={style}>
             <h3>How much extra can you pay each month?</h3>
-            <Form>
-              <Form.Field
-                id="snowball"
-                control={Input}
-                placeholder="100"
-                width={4}
-                onChange={e => setSnowball(e.target.value)}
-                value={snowball}
-              />
-            </Form>
+            <Form.Field
+              id="snowball"
+              control={Input}
+              placeholder="100"
+              width={4}
+              onChange={e => setSnowball(e.target.value)}
+              value={snowball}
+            />
           </div>
           <Button style={style} primary onClick={calculate}>
             Calculate
@@ -144,7 +135,7 @@ function CreditForm() {
         </Form>
       ) : (
         <div>
-          <Chart data={ndata} />
+          <Chart data={chartData} />
           <Button style={style} primary onClick={goBack}>
             Go Back
           </Button>

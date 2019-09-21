@@ -16,7 +16,7 @@ function SingleForm(props) {
   };
 
   return (
-    <div>
+    <div style={{marginTop: '30px'}}>
       <Form.Group widths="equal">
         <Form.Field
           id="name"
@@ -27,6 +27,16 @@ function SingleForm(props) {
           value={data.name}
         />
         <Form.Field
+          id="balance"
+          control={Input}
+          label="Balance"
+          placeholder="1000"
+          onChange={updateField}
+          value={data.balance}
+          type='number' 
+          // max={5}
+        />
+        <Form.Field
           id="apr"
           control={Input}
           label="APR"
@@ -34,7 +44,7 @@ function SingleForm(props) {
           onChange={updateField}
           value={data.apr}
           type='number' 
-          max={5}
+          // max={5}
         />
         <Form.Field
           id="minPay"

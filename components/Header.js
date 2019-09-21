@@ -11,25 +11,20 @@ const linkHeadStyle = {
 
 const Header = () => (
   <div>
-    <head>
-      <link
-        rel="stylesheet"
-        href="//cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css"
-      />
-    </head>
-
     <Link href="/">
       <a style={linkHeadStyle}>Snowball VS Avalanche</a>
     </Link>
     <a
       style={linkStyle}
       href="https://en.wikipedia.org/wiki/Debt-snowball_method"
+      target="_blank"
     >
       Snowball
     </a>
     <a
       style={linkStyle}
       href="https://www.investopedia.com/terms/d/debt-avalanche.asp"
+      target="_blank"
     >
       Avalanche
     </a>
