@@ -7,6 +7,7 @@ import {
   Tooltip,
   ResponsiveContainer
 } from "recharts";
+import { Button } from "semantic-ui-react";
 
 function Chart(props) {
   return (
@@ -41,7 +42,7 @@ function Chart(props) {
             stroke="#8884d8"
             fill="#8884d8"
           />
-          
+
           {/* <Area
             type="monotone"
             dataKey="amt"
@@ -51,6 +52,9 @@ function Chart(props) {
           /> */}
         </AreaChart>
       </ResponsiveContainer>
+      <Button style={{margin: '30px'}} primary onClick={props.goBack}>
+        Go Back
+      </Button>
     </div>
   );
 }

@@ -1,7 +1,9 @@
 import { useState } from "react";
-import { Form, Input, Button, Message } from "semantic-ui-react";
+import { Form, Message } from "semantic-ui-react";
 import CreditLine from "./CreditLine";
 import Chart from "./Chart";
+import Snowball from "./Snowball";
+import AddDelButtons from "./AddDelButtons";
 
 function CreditForm() {
   const [data, setData] = useState([
@@ -25,10 +27,6 @@ function CreditForm() {
   });
   const [snowball, setSnowball] = useState(0);
   const [count, setCount] = useState(1);
-
-  const style = {
-    marginTop: 30
-  };
 
   const handleAdd = e => {
     setData([
@@ -62,34 +60,62 @@ function CreditForm() {
   };
 
   const calculate = e => {
-    let chartDataLocal = [];
-    let n = Math.ceil(parseFloat(data[0].balance) / parseFloat(data[0].minPay));
-    let b = parseFloat(data[0].balance);
-    for (let i = 0; i < n; i++) {
-      chartDataLocal.push({
-        name: "Month " + (i + 1),
-        balance: b,
-        paid: parseFloat(data[0].minPay)
+    console.log(snowball);
+    if (parseFloat(data[0].balance) <= 0 || parseFloat(data[0].minPay) <= 0) {
+      setMessageData({
+        header: "Error",
+        text: "Balance and Minimum Payment must be greater than zero",
+        color: "red"
       });
-      b = b - parseFloat(data[0].minPay);
-    }
+      setMessage(true);
+    } else {
+      setMessage(false);
 
-    if (b < 0) {
-      let lastPayment = parseFloat(data[0].minPay) + b;
-      console.log(lastPayment);
-      chartDataLocal.push({
-        name: "Month " + (n + 1),
-        balance: 0,
-        paid: lastPayment
-      });
-    }
+      let chartDataLocal = [];
+      let n = Math.ceil(
+        parseFloat(data[0].balance) / parseFloat(data[0].minPay)
+      );
 
-    setChartData(chartDataLocal);
-    setChart(!chart);
+      let b = parseFloat(data[0].balance);
+      let i = 1;
+      while (b > 0) {
+        chartDataLocal.push({
+          name: "Month " + i,
+          balance: b,
+          paid: parseFloat(data[0].minPay) + parseFloat(snowball)
+        });
+        b = b - (parseFloat(data[0].minPay) + parseFloat(snowball));
+        i++;
+      }
+      console.log(b);
+
+      if (b === 0) {
+        chartDataLocal.push({
+          name: "Month " + i,
+          balance: 0,
+          paid: parseFloat(data[0].minPay) + parseFloat(snowball)
+        });
+      }
+
+      if (b < 0) {
+        let lastPayment = parseFloat(data[0].minPay) + parseFloat(snowball) + b;
+        console.log(lastPayment);
+        chartDataLocal.push({
+          name: "Month " + (n + 1),
+          balance: 0,
+          paid: lastPayment
+        });
+      }
+
+      console.log(chartDataLocal);
+
+      setChartData(chartDataLocal);
+      setChart(true);
+    }
   };
 
   const goBack = e => {
-    setChart(!chart);
+    setChart(false);
   };
 
   return (
@@ -102,7 +128,9 @@ function CreditForm() {
         />
       ) : null}
 
-      {!chart ? (
+      {chart ? (
+        <Chart data={chartData} goBack={goBack} />
+      ) : (
         <Form>
           <h3>Add your lines of credit</h3>
           {data.map((n, i) => {
@@ -111,35 +139,14 @@ function CreditForm() {
             );
           })}
 
-          <Button primary onClick={handleAdd}>
-            Add Credit Line
-          </Button>
-          <Button secondary onClick={handleDelete}>
-            Delete Credit Line
-          </Button>
+          <AddDelButtons handleAdd={handleAdd} handleDelete={handleDelete} />
 
-          <div style={style}>
-            <h3>How much extra can you pay each month?</h3>
-            <Form.Field
-              id="snowball"
-              control={Input}
-              placeholder="100"
-              width={4}
-              onChange={e => setSnowball(e.target.value)}
-              value={snowball}
-            />
-          </div>
-          <Button style={style} primary onClick={calculate}>
-            Calculate
-          </Button>
+          <Snowball
+            data={snowball}
+            calculate={calculate}
+            snowballChange={setSnowball}
+          />
         </Form>
-      ) : (
-        <div>
-          <Chart data={chartData} />
-          <Button style={style} primary onClick={goBack}>
-            Go Back
-          </Button>
-        </div>
       )}
     </div>
   );

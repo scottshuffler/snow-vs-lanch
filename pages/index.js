@@ -13,6 +13,7 @@ const Page = () => {
         <link
           rel="stylesheet"
           href="../static/semantic.css"
+          title="Snowball vs Avalanche Visualizer"
         />
       </Head>
       <CreditForm />
