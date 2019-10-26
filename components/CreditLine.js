@@ -119,6 +119,7 @@ function SingleForm(props) {
               iconPosition="left"
               animation='none'
               onChange={handleChange}
+              closable={true}
             />
           : null}
       </Form.Group>
