@@ -10,15 +10,16 @@ const Page = () => {
   return (
     <div style={style}>
       <Head>
-      {/* <link
+      <title>Snowball vs Avalanche Visualizer</title>
+      <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      <meta name="Description" content="Snowball and Avalanche debt visualizer" />
+      <link
           rel="stylesheet"
           href="../static/main.css"
-          title="Snowball vs Avalanche Visualizer"
-        /> */}
+        />
         <link
           rel="stylesheet"
           href="../static/semantic.css"
-          title="Snowball vs Avalanche Visualizer"
         />
       </Head>
       <CreditForm />
