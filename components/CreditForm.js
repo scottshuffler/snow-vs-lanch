@@ -4,6 +4,7 @@ import CreditLine from "./CreditLine";
 import Chart from "./Chart";
 import Snowball from "./Snowball";
 import AddDelButtons from "./AddDelButtons";
+import { deflateSync } from "zlib";
 
 function CreditForm() {
   const [data, setData] = useState([
@@ -58,7 +59,7 @@ function CreditForm() {
     dt[foundIndex] = childData;
     setData(dt);
   };
-
+//top
   const calculate = e => {
     console.log(snowball);
     if (parseFloat(data[0].balance) <= 0 || parseFloat(data[0].minPay) <= 0) {
@@ -84,7 +85,11 @@ function CreditForm() {
           balance: b,
           paid: parseFloat(data[0].minPay) + parseFloat(snowball)
         });
-        b = b - (parseFloat(data[0].minPay) + parseFloat(snowball));
+        //b = b - (parseFloat(data[0].minPay) + parseFloat(snowball));
+        let dailyAPR = data[0].apr / 365;
+        let dailyInterest = dailyAPR * b;
+        let cycleInterest = dailyInterest * 30;
+        b = b + cycleInterest - (parseFloat(data[0].minPay) + parseFloat(snowball));
         i++;
       }
       console.log(b);
