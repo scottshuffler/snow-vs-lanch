@@ -10,6 +10,11 @@ const Page = () => {
   return (
     <div style={style}>
       <Head>
+      {/* <link
+          rel="stylesheet"
+          href="../static/main.css"
+          title="Snowball vs Avalanche Visualizer"
+        /> */}
         <link
           rel="stylesheet"
           href="../static/semantic.css"
