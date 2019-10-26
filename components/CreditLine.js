@@ -1,8 +1,10 @@
-import { Form, Input } from "semantic-ui-react";
+import { Checkbox, Form, Input } from "semantic-ui-react";
 import { useState } from "react";
 
 function SingleForm(props) {
   const [data, setName] = useState(props.data);
+
+  const [hasPromo, setHasPromo] = useState(false);
 
   const updateField = e => {
     setName({
@@ -15,8 +17,20 @@ function SingleForm(props) {
     props.parentCallback(d);
   };
 
+  const togglePromo = e => {
+    setHasPromo(!hasPromo);
+    // setName({
+    //   ...data,
+    //   [e.target.id]: e.target.value
+    // });
+
+    // let d = props.data;
+    // d[e.target.id] = e.target.value;
+    // props.parentCallback(d);
+  };
+
   return (
-    <div style={{marginTop: '30px'}}>
+    <div style={{ marginTop: "30px" }}>
       <Form.Group widths="equal">
         <Form.Field
           id="name"
@@ -33,7 +47,7 @@ function SingleForm(props) {
           placeholder="1000"
           onChange={updateField}
           value={data.balance}
-          type='number' 
+          type="number"
           // max={5}
         />
         <Form.Field
@@ -43,7 +57,7 @@ function SingleForm(props) {
           placeholder="20%"
           onChange={updateField}
           value={data.apr}
-          type='number' 
+          type="number"
           // max={5}
         />
         <Form.Field
@@ -54,22 +68,38 @@ function SingleForm(props) {
           onChange={updateField}
           value={data.minPay}
         />
-        <Form.Field
-          id="promoAPR"
-          control={Input}
-          label="Promotional APR%"
-          placeholder="0%"
-          onChange={updateField}
-          value={data.promoAPR}
+        <Form.Checkbox
+          // id="minPay"
+          control={Checkbox}
+          label="Does this card have a promotional APR?"
+          // placeholder="100"
+          onChange={togglePromo}
+          // value={data.minPay}
         />
-        <Form.Field
-          id="promoDate"
-          control={Input}
-          label="Promotional APR end (MM/DD/YY)"
-          placeholder="10/01/19"
-          onChange={updateField}
-          value={data.promoDate}
-        />
+        {/* <Checkbox 
+        label="Promotional APR?"
+        onChange={}
+        /> */}
+        {hasPromo
+          ? <Form.Field
+              id="promoAPR"
+              control={Input}
+              label="Promotional APR%"
+              placeholder="0%"
+              onChange={updateField}
+              value={data.promoAPR}
+            />
+          : null}
+        {hasPromo
+          ? <Form.Field
+              id="promoDate"
+              control={Input}
+              label="Promotional APR end (MM/DD/YY)"
+              placeholder="10/01/19"
+              onChange={updateField}
+              value={data.promoDate}
+            />
+          : null}
       </Form.Group>
     </div>
   );

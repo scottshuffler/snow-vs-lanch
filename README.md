@@ -19,7 +19,5 @@ yarn start
 ``` 
 yarn 
 
-yarn build && yarn export
-
-firebase deploy 
+yarn build && yarn export && firebase deploy 
 ```
