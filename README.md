@@ -15,8 +15,6 @@ yarn dev
 
 Build for production
 ``` 
-yarn 
-
 yarn build && yarn export
 
 ```

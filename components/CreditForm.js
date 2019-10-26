@@ -4,6 +4,7 @@ import CreditLine from "./CreditLine";
 import Chart from "./Chart";
 import Snowball from "./Snowball";
 import AddDelButtons from "./AddDelButtons";
+import moment from "moment";
 
 function CreditForm() {
   const [data, setData] = useState([
@@ -58,8 +59,13 @@ function CreditForm() {
     dt[foundIndex] = childData;
     setData(dt);
   };
-
+  //top
   const calculate = e => {
+    console.log(moment().daysInMonth());
+    console.log(moment("20120201", "YYYYMMDD").daysInMonth()); // 29
+    console.log(moment("20120101", "YYYYMMDD").daysInMonth()); // 31
+    // let daysInMonth = moment().format("DD");
+    // let currYear = moment().format("YYYY");
     console.log(snowball);
     if (parseFloat(data[0].balance) <= 0 || parseFloat(data[0].minPay) <= 0) {
       setMessageData({
@@ -84,7 +90,14 @@ function CreditForm() {
           balance: b,
           paid: parseFloat(data[0].minPay) + parseFloat(snowball)
         });
-        b = b - (parseFloat(data[0].minPay) + parseFloat(snowball));
+        //b = b - (parseFloat(data[0].minPay) + parseFloat(snowball));
+        let dailyAPR = data[0].apr / 365;
+        let dailyInterest = dailyAPR * b;
+        let cycleInterest = dailyInterest * 30;
+        b =
+          b +
+          cycleInterest -
+          (parseFloat(data[0].minPay) + parseFloat(snowball));
         i++;
       }
       console.log(b);
@@ -120,34 +133,32 @@ function CreditForm() {
 
   return (
     <div>
-      {message ? (
-        <Message
-          color={messageData.color}
-          header={messageData.header}
-          content={messageData.text}
-        />
-      ) : null}
-
-      {chart ? (
-        <Chart data={chartData} goBack={goBack} />
-      ) : (
-        <Form>
-          <h3>Add your lines of credit</h3>
-          {data.map((n, i) => {
-            return (
-              <CreditLine data={n} parentCallback={handleUpdate} key={i} />
-            );
-          })}
-
-          <AddDelButtons handleAdd={handleAdd} handleDelete={handleDelete} />
-
-          <Snowball
-            data={snowball}
-            calculate={calculate}
-            snowballChange={setSnowball}
+      {message
+        ? <Message
+            color={messageData.color}
+            header={messageData.header}
+            content={messageData.text}
           />
-        </Form>
-      )}
+        : null}
+
+      {chart
+        ? <Chart data={chartData} goBack={goBack} />
+        : <Form>
+            <h3>Add your lines of credit</h3>
+            {data.map((n, i) => {
+              return (
+                <CreditLine data={n} parentCallback={handleUpdate} key={i} />
+              );
+            })}
+
+            <AddDelButtons handleAdd={handleAdd} handleDelete={handleDelete} />
+
+            <Snowball
+              data={snowball}
+              calculate={calculate}
+              snowballChange={setSnowball}
+            />
+          </Form>}
     </div>
   );
 }
