@@ -65,7 +65,11 @@ function CreditForm() {
     console.log(moment("20120201", "YYYYMMDD").daysInMonth()); // 29
     console.log(moment("20120101", "YYYYMMDD").daysInMonth()); // 31
     // let daysInMonth = moment().format("DD");
-    // let currYear = moment().format("YYYY");
+    let currYear = moment().format("YYYY");
+    let nYear = currYear;
+    let currMonth = moment().format("MM");
+    let nMonth = currMonth;
+
     console.log(snowball);
     if (parseFloat(data[0].balance) <= 0 || parseFloat(data[0].minPay) <= 0) {
       setMessageData({
@@ -91,14 +95,20 @@ function CreditForm() {
           paid: parseFloat(data[0].minPay) + parseFloat(snowball)
         });
         //b = b - (parseFloat(data[0].minPay) + parseFloat(snowball));
+        let days = moment('"' + nYear + nMonth + '"', "YYYYMM").daysInMonth;
         let dailyAPR = data[0].apr / 365;
         let dailyInterest = dailyAPR * b;
-        let cycleInterest = dailyInterest * 30;
+        let cycleInterest = dailyInterest * days;
         b =
           b +
           cycleInterest -
           (parseFloat(data[0].minPay) + parseFloat(snowball));
         i++;
+        nMonth++;
+        if(nMonth == 13) {
+          nMonth = 1;
+          nYear++;
+        }
       }
       console.log(b);
 
