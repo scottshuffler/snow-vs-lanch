@@ -12,7 +12,7 @@ function SingleForm(props) {
   // };
 
   const updateField = e => {
-    console.log(e);
+    // console.log(e);
     setName({
       ...data,
       [e.target.id]: e.target.value

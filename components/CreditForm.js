@@ -71,7 +71,7 @@ function CreditForm() {
       setMessage(true);
     } else {
       setMessage(false);
-      setChartData(calculateChartData(data));
+      setChartData(calculateChartData(data, snowball));
       setChart(true);
     }
   };
