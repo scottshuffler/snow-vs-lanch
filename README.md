@@ -16,7 +16,6 @@ yarn dev
 Build for production
 ``` 
 yarn build && yarn export
-
 ```
 
 Deploy to Firebase
