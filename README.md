@@ -2,22 +2,24 @@
 
 [Demo](https://snowlanch.firebaseapp.com)
 
-Install deps:
+Install deps
 
 ```
-
 yarn
-
 ```
 
 Run locally
 ``` 
-yarn start
+yarn dev
 ```
 
-
+Build for production
 ``` 
-yarn 
+yarn build && yarn export
 
-yarn build && yarn export && firebase deploy 
+```
+
+Deploy to Firebase
+```
+firebase deploy 
 ```
