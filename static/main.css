@@ -3,6 +3,16 @@
     background-color: #1F2023;
     color: #e4e4e4;
   }
+
+  .ui.form input[type="text"] {
+    background-color: #2d2f34;
+  }
+
+  /* label {
+    color: white;
+    opacity: .65;
+  } */
+
   a {
     color: #e39777;
   }

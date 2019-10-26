@@ -27,7 +27,7 @@ function SingleForm(props) {
     setHasPromo(!hasPromo);
   };
 
-  const handleChange = (event, {id, value}) => {
+  const handleChange = (event, { id, value }) => {
     setName({
       ...data,
       [id]: value
@@ -36,7 +36,7 @@ function SingleForm(props) {
     let d = props.data;
     d[id] = value;
     props.parentCallback(d);
-  }
+  };
 
   return (
     <div style={{ marginTop: "30px" }}>
@@ -79,6 +79,7 @@ function SingleForm(props) {
         />
         {!hasPromo
           ? <Form.Checkbox
+              style={{ marginTop: "2.3rem" }}
               // id="minPay"
               control={Checkbox}
               label="Promotional APR?"
@@ -117,8 +118,10 @@ function SingleForm(props) {
               placeholder="Date"
               value={data.promoDate}
               iconPosition="left"
-              animation='none'
+              animation="none"
               onChange={handleChange}
+              closable={true}
+              label="Promotional APR End"
             />
           : null}
       </Form.Group>
