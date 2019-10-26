@@ -4,7 +4,6 @@ import CreditLine from "./CreditLine";
 import Chart from "./Chart";
 import Snowball from "./Snowball";
 import AddDelButtons from "./AddDelButtons";
-import { deflateSync } from "zlib";
 
 function CreditForm() {
   const [data, setData] = useState([
