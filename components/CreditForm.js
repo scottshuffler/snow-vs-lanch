@@ -95,9 +95,9 @@ function CreditForm() {
           paid: parseFloat(data[0].minPay) + parseFloat(snowball)
         });
         //b = b - (parseFloat(data[0].minPay) + parseFloat(snowball));
-        let days = moment('"' + nYear + nMonth + '"', "YYYYMM").daysInMonth;
-        let dailyAPR = data[0].apr / 365;
-        let dailyInterest = dailyAPR * b;
+        let days = moment('"' + nYear + nMonth + '"', "YYYYMM").daysInMonth();
+        let dailyAPR = data[0].apr / 365 / 100;
+        let dailyInterest = parseFloat(dailyAPR) * b;
         let cycleInterest = dailyInterest * days;
         b =
           b +
